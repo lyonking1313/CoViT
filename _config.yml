@@ -22,7 +22,7 @@ title: CoViT
 email: lyonkim2004@icloud.com
 description: >- #Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S.
   Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S
-baseurl: "/CoViT_Website" # the subpath of your site, e.g. /blog
+baseurl: "/CoViT" # the subpath of your site, e.g. /blog
 url: "lyonking1313.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  lyonking1313
 
