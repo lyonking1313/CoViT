@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Methods | CoViT</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Methods" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S" />
+<meta property="og:description" content="Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S" />
+<link rel="canonical" href="lyonking1313.github.io/jekylldemo/methods/" />
+<meta property="og:url" content="lyonking1313.github.io/jekylldemo/methods/" />
+<meta property="og:site_name" content="CoViT" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Methods" />
+<script type="application/ld+json">
+{"url":"lyonking1313.github.io/jekylldemo/methods/","headline":"Methods","description":"Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/jekylldemo/assets/main.css"><link type="application/atom+xml" rel="alternate" href="lyonking1313.github.io/jekylldemo/feed.xml" title="CoViT" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/jekylldemo/">CoViT</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/jekylldemo/methods/">Methods</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Methods</h1>
+  </header>
+
+  <div class="post-content">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+<p>The COVID-19 data we use is stored in the <a href="gisaid.org">GISAID</a> (Global Initiative of Sharing all Influenza Data) database. We update the information weekly in order to provide graphs and trends that are up-to-date and indicative of the current COVID-19 situation.</p>
+
+<p>Explained below are the methods for how we analyzed the data:</p>
+
+<p>The dataset includes information on the variant each patient had, when the information was collected, their location (as specific as the state), and more. We focused on these three details.</p>
+
+<p>Our first function has an input of a specific variant or location and outputs a list of the number of cases for each epiweek. The code checks the variant or location column for a specific label (e.g. “B.1.1.7” or “USA”) as well as the date collected, separating the number of patients by week.  We implemented this function to calculate the total number of COVID-19 and B.1.1.7 cases in the U.S.</p>
+
+<p>We plotted both the total number of COVID-19 and B.1.1.7 cases.</p>
+
+<p>Figure 2 represents the percentage of B.1.1.7 cases (<em>m<sub>i</sub></em>) out of the the total number of cases (<em>n<sub>i</sub></em>). <em>m<sub>i</sub></em> and <em>n<sub>i</sub></em> are the observed counts from the dataset. The subscript <em>i</em> represents that the number of cases are determined by each week. <em>p<sub>i</sub></em>, the portion of COVID-19 cases that are B.1.1.7 , is estimated below:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0Ap_i%20%26%3D%20%5Cfrac%7Bm_i%7D%7Bn_i%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>We created error bounds using a 95% credible interval derived from the beta prior and binomal likelihood. <em>p</em> is the variable that deterimines the probability (<em>p<sub>i</sub></em>). This is the beta distribition pdf, with shape parameters α and β:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Cfrac%7Bp%5E%7B%5Calpha-1%7D(1-p)%5E%7B%5Cbeta-1%7D%7D%7B%5CBeta(%5Calpha%2C%20%5Cbeta)%7D%0A%5Cend%7Balign*%7D" class="center" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>Now, we can define the prior as a uniform prior using α=1 and β=1:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Ctextrm%7BBeta%7D(%5Calpha%2C%5Cbeta)%20%26%3D%20%5Ctextrm%7BBeta%7D(1%2C1)%5C%5C%0A%5Cfrac%7Bp%5E%7B0%7D(1-p)%5E%7B0%7D%7D%7B%5CBeta(1%2C1)%7D%20%26%3D%201%5C%5C%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>The fact that the prior equals 1 suggests that every value from 0 to 1 has an equal likelihood of being <em>p<sub>i</sub></em> for each i.</p>
+
+<p>The binomial likelihood was then calculated as follows, with n equal to the total number of COVID-19 cases, and k equal to the number of observed COVID-19 B.1.1.7 cases:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Ctextrm%7BBinom%7D(n%2Cp)%20%26%3D%20%5Cbinom%7Bn%7D%7Bk%7Dp%5Ek(1-p)%5E%7Bn-k%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>The posterior is calculated by multiplying the prior with the likelihood, and since the prior is equal to 1, the posterior is equal to the prior. The equation above can be rearranged into:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0Ap%5E%7Bk%7D(1-p)%5E%7Bn-k%7D%20%26%3D%20p%5E%7B(k%2B1)-1%7D(1-p)%5E%7B(n-k%2B1)-1%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>This then can be written as:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Ctextrm%7BBeta%7D(k%2B1%2C%20n-k%2B1)%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>If we were to maximize this function by setting the derivative to 0, <em>p</em> would be estimated as <em>n/k</em>. This is the MAP (Maximum a posteriori) estimator for p. We calculated the 95% credible interval by computing the 0.025 and 0.975 quantiles of the beta distribution.</p>
+
+<p>According to epidemiologic data, we knew that the graph would be logistic. Therefore, we were able to use a logit function in order to create a linear model:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0Ay_i%20%26%3D%20%20%5Clog%7B%5Cfrac%7Bp_i%7D%7B1-p_i%7D%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>A linear regression model was then computed. First, we used the linear regression estimate of slope. <em>x<sub>i</sub></em> represents the week number, and we define <em><span style="text-decoration:overline">x</span></em> and <em><span style="text-decoration:overline">y</span></em> to be the means of <em>x<sub>i</sub></em> and <em>y<sub>i</sub></em> respectively. <em>W</em> is the total number of epiweeks available. Here, we calculate the slope, <em>m</em>:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0Am%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D0%7D%5E%7BW%7D(x_i-%5Cbar%7Bx%7D)(y_i-%5Cbar%7By%7D)%7D%7B%5Csum_%7Bi%3D0%7D%5E%7BW%7D(x_i-%5Cbar%7Bx%7D)%5E2%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p><em>ŷ<sub>i</sub></em> is the y-coordinate for the linear regression model, whose equation is listed below:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Chat%7By%7D_i%20%3D%20m(x_i-%5Cbar%7Bx%7D)%2B%5Cbar%7By%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>The 95% credible intervals are then determined again by a beta prior and binomial likelihood. The doubling time, which is how long it takes for the number of B.1.1.7 cases to double. In order to find this, we calculated in logistic space, how long it would take to double <em>p<sub>i</sub></em>, which was <em>ln(2)</em>. Then, to get the change in time, we divided <em>ln(2)</em> by <em>m</em> (the slope).</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0At%20%3D%20%5Cfrac%7B%5Cln%7B2%7D%7D%7Bm%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>The last step was to convert this linear model back to the logit scale to estimate a logistic curve for our data. To do so, we created the inverse of the logit function:</p>
+
+<p><img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Chat%7Bp_i%7D%20%3D%20%5Cfrac%7Be%5E%7B%5Chat%7By_i%7D%7D%7D%7B1%2Be%5E%7B%5Chat%7By_i%7D%7D%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;" /></p>
+
+<p>Thus, we were able to fit a logistic curve to our data.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekylldemo/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CoViT</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CoViT</li><li><a class="u-email" href="mailto:lyonkim2004@icloud.com">lyonkim2004@icloud.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/lyonking1313"><svg class="svg-icon"><use xlink:href="/jekylldemo/assets/minima-social-icons.svg#github"></use></svg> <span class="username">lyonking1313</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Covid Variant Tracker (CoViT). Quantitative tracking of B.1.1.7 variant prevalence in the U.S</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
