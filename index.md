@@ -5,7 +5,7 @@
 layout: home
 ---
 
-## Welcome to CoViT (Covid Variant Tracker)
+## CoViT (Covid Variant Tracker)
 
 This site tracks multiple different variants of COVID-19 in the U.S. (primarily B.1.1.7, which is the most prevalent). Our goal is to make this information publicly and easily accessible to study and understand the trends of COVID-19. Thanks to recent efforts of public labs, there has been an increase in sequencing data for this disease. This data is primarily stored in [GISAID](https://www.gisaid.org) (Global Initiative on Sharing All Influenza Data). However, it is not easily accessible to the public and is difficult to understand. We use this data in tandem with our own statistical analysis to provide visual representations and graphs. More specifically, we present weekly updates to quantify the prevalence of COVID-19 variants (B.1.1.7) over time. In the future, we will create a model to predict the future trajectory of the B.1.1.7 variant. 
 
