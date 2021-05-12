@@ -41,7 +41,7 @@ This graph shows the log odds ratio of the prevalence of B.1.1.7 cases in the U.
 
 In order to better interpret the slopes of the local regression model, we calculated the transmissibility ratios inferred from the slopes and graphed the results, using an incubation period of [5 days](https://www.cdc.gov/coronavirus/2019-ncov/hcp/clinical-guidance-management-patients.html). The transmissibility ratio is the transmissibility rate (how many people one person can infect on average) of B.1.1.7 over the rate for other existing COVID-19 variants. By representing the information as a ratio, we can see the relative fitness of the B.1.1.7 variant and detect the relative fitness of other variants.
 
-{% include transmissibility_ratio.html}
+{% include transmissibility_ratio.html %}
 
 The graph above shows the transmissibility ratio over time, with the x-axis representing time and the y-axis the transmissibility ratio. The initial variation is most likely due to noise and likely does not imply a meaningful trend. The gradual dip toward the end, however, represents that other variants are becoming more transmissible and relatively more fit. 
 
