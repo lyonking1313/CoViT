@@ -67,3 +67,4 @@ The last step was to convert this linear model back to the logit scale to estima
 <img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Chat%7Bp_i%7D%20%3D%20%5Cfrac%7Be%5E%7B%5Chat%7By_i%7D%7D%7D%7B1%2Be%5E%7B%5Chat%7By_i%7D%7D%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;">
 
 Thus, we were able to fit a logistic curve to our data.
+
