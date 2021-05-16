@@ -39,10 +39,11 @@ Because the global linearity assumption could be false due to dynamic changes in
 
 This graph shows the log odds ratio of the prevalence of B.1.1.7 cases in the U.S. over time. The dots represent the observed average prevalence (number of B.1.1.7 cases divided by the total number of COVID cases) with a 95% credible interval. The linear regression model (shown in blue) demonstrates an upward trend. The local regression model (shown in red) has a similar trend, but subtle shifts in the slope of the line are present.
 
+According to the model, the B.1.1.7 variant is becoming more widespread in the U.S. The slope of the line is 0.38, which represents a 47% increase in the odds ratio every week. The estimated doubling time is approximately 13 days, consistent with [prior studies](https://www.medrxiv.org/content/10.1101/2021.02.06.21251159v1.full.pdf). 
+
 In order to better interpret the slopes of the local regression model, we calculated the transmissibility ratios inferred from the slopes and graphed the results, using an incubation period of [5 days](https://www.cdc.gov/coronavirus/2019-ncov/hcp/clinical-guidance-management-patients.html). The transmissibility ratio is the transmissibility rate (how many people one person can infect on average) of B.1.1.7 over the rate for other existing COVID-19 variants. By representing the information as a ratio, we can see the relative fitness of the B.1.1.7 variant and detect the relative fitness of other variants.
 
 {% include transmissibility_ratio.html %}
 
 The graph above shows the transmissibility ratio over time, with the x-axis representing time and the y-axis the transmissibility ratio. The initial variation is most likely due to noise and likely does not imply a meaningful trend. The gradual dip toward the end, however, represents that other variants are becoming more transmissible and relatively more fit. 
 
-According to the model, the B.1.1.7 variant is becoming more widespread in the U.S. The slope of the line is 0.38, which represents a 47% increase in the odds ratio every week. The estimated doubling time is approximately 13 days, consistent with [prior studies](https://www.medrxiv.org/content/10.1101/2021.02.06.21251159v1.full.pdf). 
