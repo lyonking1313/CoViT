@@ -104,6 +104,17 @@
 
 <p>Thus, we were able to fit a logistic curve to our data.</p>
 
+<p>In addition to the linear model, we created a local regression. We used intervals of 5 weeks and calculated the equations of the lines for each interval. Essentially, it is a localized version of the linear model.</p>
+
+<p>The reproductive number is defined as the number of people one infected person can trasmit the disease to over an incubation period of 5 days. Using this, we can calculate the transmissibility ratio, which is the reproductive number of the B.1.1.7 variant (<em>R<sub>B</sub></em>) over the reproductive number of the other variants (<em>R<sub>0</sub></em>):
+\(\frac{R_B}{R_0}\)
+The slope of the graph of the <em>log(p/(1-p))</em> over time can be calculated as the change of the log ratio over one incubation period (5/7 of a week). If we consider  <em>p</em> as the initial proportion of B.1.1.7 cases and note that over one incubation period the B.1.1.7 cases will grow by a factor of <em>R<sub>B</sub></em>, while other cases grow by a factor of <em>R<sub>0</sub></em>, then slope will be calculated as follows:
+\(m = \frac{\log{\frac{p*R_B}{(1-p)*R_0}} -\log{\frac{p}{1-p}}}{\frac{5}{7}}\)
+By logarithmic properties, we can simply the expression to:
+\(m = \frac{\log{\frac{R_B}{R_0}}}{\frac{5}{7}}\)
+Thus, we can manipulate <em>m</em> to get the trasmissibility ratio (<em>T</em>):
+\(T = e^{(\frac{5}{7})*m}\)</p>
+
   </div>
 
 </article>
