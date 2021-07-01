@@ -13,27 +13,41 @@ import glob
 import os
 
 
-def define_datasets():
+def define_datasets(variant_name, B117_denom = False):
+    #REMEMBER TO ADD B117_denom IN OTHER CALLS
+
     # df = "metadata_updates/metadata_2021-04-30_13-06.tsv"
     list_of_files = glob.glob('metadata_updates/*') # * means all if need specific format then *.csv
     file_name = max(list_of_files, key=os.path.getctime)
-    
+
     os_time = os.path.getctime(file_name)
     ymd = datetime.fromtimestamp(os_time).strftime('%Y-%m-%d')
-    
+
     new_file_name = "metadata_updates/metadata_" + ymd + '.tsv'
     if file_name != new_file_name:
         os.rename(file_name, new_file_name)
-     
-        
+
+
     dataset = pd.read_csv(new_file_name, sep="\t") 
 
-    USA = dataset["country"].str.contains("USA")
-    USA_variants = dataset[USA]
 
-    USA_B117 = USA_variants["pango_lineage"] == "B.1.1.7"
-    USA_B117_variants = USA_variants[USA_B117]
-    return(USA_variants, USA_B117_variants, new_file_name)
+
+    USA = dataset["country"].str.contains("USA")
+    USA_total_variants = dataset[USA]
+
+    USA_variant_name = USA_total_variants["pango_lineage"] == variant_name
+    USA_variant = USA_total_variants[USA_variant_name]
+
+    if B117_denom:
+        USA_B117_variant = USA_total_variants["pango_lineage"] == "B.1.1.7"
+        USA_B117_and_variant = USA_B117_variant | USA_variant_name
+        USA_B117 = USA_total_variants[USA_B117_and_variant]
+        return(USA_B117, USA_variant, new_file_name)
+        #first 2 things returned should be datatables
+    else:
+        return(USA_total_variants, USA_variant, new_file_name)
+
+
 
 
 
@@ -56,7 +70,7 @@ def cases_per_week_function(variant_type, file_name):
 
     yday_list = []
     for i in range (0, len(var)):
-        date_str = var.iloc[i]
+        date_str = var.iloc[i]  
         if len(date_str) == 10:
             date_obj = datetime.strptime(date_str, '%Y-%m-%d')
             yday=date_obj.timetuple().tm_yday
@@ -121,22 +135,53 @@ def local_reg(x_list, y_list, window):
         midpoint_x.append(mdx)
     return(short_window_list, m_list, midpoint_list, midpoint_x)
 
-def create_graphs():
-    USA_variants, USA_B117_variants, file_name = define_datasets()
+
+# *******************************************************************************************************************************
+
+def set_up_variables(variant_name, denom):
+    # DEFINE VARIANT NAME HERE 
+    
+    # variant_name = "B.1.617.2"
+    # variant_name = "P.1"
+    # if variant_name == "B.1.1.7":
+    #     denom = False
+    # else:
+    #     denom = True
+    USA_variants, USA_B117_variants, file_name = define_datasets(variant_name, B117_denom = denom)
 
     B117_per_week = cases_per_week_function(USA_B117_variants, file_name)
     USA_per_week = cases_per_week_function(USA_variants, file_name)
-
     B117_over_total_USA = B117_per_week*100/USA_per_week
+
+    for i in range (0, len(B117_over_total_USA)):
+        if B117_over_total_USA[len(B117_over_total_USA)-i-1] < np.exp(-8.5):
+            start_index = len(B117_over_total_USA) - i
+            break;
+
+    B117_over_total_USA = B117_over_total_USA[start_index:len(B117_over_total_USA)]
+    B117_per_week = B117_per_week[start_index:len(B117_per_week)]
+    USA_per_week = USA_per_week[start_index:len(USA_per_week)]
+
+    for i in range (0, len(B117_over_total_USA)):
+        B117_over_total_USA[i] = B117_over_total_USA[i] + 10**-8
+
+
+
     k_list = cases_per_week_function(USA_B117_variants, file_name)
     n_list = cases_per_week_function(USA_variants, file_name)
 
+    k_list = k_list[start_index:len(k_list)]
+    n_list = n_list[start_index:len(n_list)]
+    return(k_list, n_list, file_name, start_index, B117_over_total_USA, B117_per_week, USA_per_week)
+
+
+def get_upper_lower_bounds(k_list, n_list, file_name, start_index):
     lower_bounds = []
     upper_bounds = []
     max_epiweek = max_epiweek_finder(file_name)
 
 
-    for i in range (0, max_epiweek +2):
+    for i in range (0, max_epiweek +2-start_index):
         k = k_list[i]
         n = n_list[i]
     #     print("lower bound: " + str(sc.beta.ppf(.025, k+1, n-k+1)))
@@ -146,14 +191,15 @@ def create_graphs():
         lower_bounds.append(l)
         upper_bounds.append(u)
     # print(lower_bounds)
+    return (lower_bounds, upper_bounds, max_epiweek)
 
 
-
+def logit_function(max_epiweek, start_index, B117_over_total_USA, k_list):
 
     y_logistic_scale = []
 
     len(B117_over_total_USA.tolist())
-    for i in range (0, max_epiweek+2):
+    for i in range (0, max_epiweek+2-start_index):
         y = logit_scale(B117_over_total_USA.tolist()[i])
         y_logistic_scale.append(y)
 
@@ -170,12 +216,12 @@ def create_graphs():
     doubling_time * 7
 
 
-
     lin_x = np.linspace(-1,max_epiweek+1,1000)
     lin_y = m*(lin_x-mean_x) + mean_y
+    return(lin_x, lin_y, x_list, y_list, y_logistic_scale, lin_reg_y)
 
 
-
+def logit_bounds(lower_bounds, upper_bounds):
     logit_upper_bounds = []
     for i in range (0, len(upper_bounds)):
         l = logit_scale(upper_bounds[i])
@@ -185,10 +231,11 @@ def create_graphs():
     for i in range (0, len(lower_bounds)):
         l = logit_scale(lower_bounds[i])
         logit_lower_bounds.append(l)
+    return(logit_lower_bounds, logit_upper_bounds)
 
 
 
-
+def last_variables(lin_y, k_list, x_list, y_list):
     log_reg_y = (np.exp(lin_y)*100)/(1+np.exp(lin_y))
     k_list_int = [int(i) for i in k_list.index.tolist()]
 
@@ -198,13 +245,16 @@ def create_graphs():
     incubation_m_list = incubation_m_list[1:len(incubation_m_list)]
     midpoint_list = midpoint_list[1:len(midpoint_list)]
     midpoint_x = midpoint_x[1:len(midpoint_x)]
+    return(midpoint_x, midpoint_list, incubation_m_list, log_reg_y, k_list_int)
 
 
+
+def total_cases(k_list, B117_per_week, USA_per_week, variant_name): 
     source = ColumnDataSource(data=dict(groups=k_list.index.tolist(), counts=B117_per_week))
     source_1 = ColumnDataSource(data=dict(groups=k_list.index.tolist(), counts=USA_per_week))
 
-    p = figure(x_range=k_list.index.tolist(), plot_height=350, title="B.1.1.7 vs Total U.S. COVID-19 Cases per Week", y_range=(0,max(USA_per_week)*1.025))
-    p.line(x='groups', y='counts', line_width=2, color = 'red', source=source, legend_label = "B.1.1.7")
+    p = figure(x_range=k_list.index.tolist(), plot_height=350, title= variant_name + " vs Total U.S. COVID-19 Cases per Week", y_range=(0,max(USA_per_week)*1.025))
+    p.line(x='groups', y='counts', line_width=2, color = 'red', source=source, legend_label = variant_name)
     p.line(x='groups', y='counts', line_width=2, source=source_1, color = 'blue', legend_label = "Total Cases")
 
 
@@ -213,64 +263,69 @@ def create_graphs():
 
     p.legend.location = "top_left"
 
-    output_file("_includes/B117_vs_Total_per_week.html")
+    # output_file("_includes/B117_vs_Total_per_week.html")
 
+    output_file("../_includes/" + variant_name + "_vs_Total_per_week.html")
     show(p)
 
 
-
+def percentage_cases(k_list_int, lower_bounds, upper_bounds, B117_over_total_USA, lin_x, log_reg_y, variant_name):
     source = ColumnDataSource(data=dict(groups=k_list_int, upper=upper_bounds, lower=lower_bounds, counts=B117_over_total_USA.tolist()))
     source_1 = ColumnDataSource(data=dict(second_x=lin_x, second_y = log_reg_y))
 
-    p = figure(plot_height=350, title="Prevalence of B.1.1.7 over Time in the U.S.", y_range=(0,max(max(log_reg_y), max(upper_bounds))*1.025))
+    p = figure(plot_height=350, title="Prevalence of " + variant_name + " over Time in the U.S.", y_range=(0,max(max(log_reg_y), max(upper_bounds))*1.025))
     p.circle(x='groups', y='counts', size=3, color = 'black', source = source, legend_label = "Observed Data")
     p.line(x='second_x', y='second_y', line_width=2, source=source_1, legend_label = "Estimated Logistic Model")
 
 
     p.xaxis.axis_label = 'Epiweek'
-    p.yaxis.axis_label = 'Percentage of B.1.1.7 out of COVID Cases'
+    p.yaxis.axis_label = 'Percentage of ' + variant_name + ' out of COVID Cases'
 
     p.add_layout(
         Whisker(source=source, base="groups", upper="upper", lower="lower", level="overlay")
     )
-    p.legend.location = "bottom_right"
+    p.legend.location = "top_left"
     # bokeh add axis labels and title y axis is percentage of cases that are B.1.1.7
 
-    output_file("_includes/epiweek_US.html")
+    # output_file("_includes/epiweek_US.html")
+    output_file("../_includes/" + variant_name + "epiweek_US.html")
 
     show(p)
 
 
+def logit_graph(k_list_int, logit_lower_bounds, logit_upper_bounds, y_logistic_scale, lin_reg_y, midpoint_x, midpoint_list, variant_name):
     source = ColumnDataSource(data=dict(groups=k_list_int, upper=logit_upper_bounds, lower=logit_lower_bounds, counts=y_logistic_scale, lin_reg = lin_reg_y))
     source_1 = ColumnDataSource(data=dict(groups=midpoint_x,counts1=midpoint_list))
 
-    p = figure(plot_height=350, title="Linear and Local Regression Models for the Prevalence of B.1.1.7", y_range=(np.min(logit_lower_bounds)-0.5,np.max(lin_reg_y)+0.5))
+    p = figure(plot_height=350, title="Linear and Local Regression Models for the Prevalence of " + variant_name, y_range=(np.min(logit_lower_bounds)-0.5,np.max(lin_reg_y)+0.5))
 
     p.line(x='groups', y='lin_reg', line_width=2, source=source, legend_label = "Estimated Linear Model")
     p.line(x='groups', y='counts1', line_width=2, color = 'red', source=source_1, legend_label = 'Local Regression')
     p.circle(x='groups', y='counts', size=3, color = 'black', source = source, legend_label = "Observed Data")
 
     p.xaxis.axis_label = 'Epiweek'
-    p.yaxis.axis_label = 'Log Odds Ratio of the Prevalence of B.1.1.7 Cases'
+    p.yaxis.axis_label = 'Log Odds Ratio of the Prevalence of '+ variant_name + ' Cases'
     p.add_layout(
         Whisker(source=source, base="groups", upper="upper", lower="lower", level="overlay")
     ) 
 
     p.legend.location = "bottom_right"
 
-    output_file("_includes/epiweek_US_logit_local.html")
+    # output_file("_includes/epiweek_US_logit_local.html")
+    output_file("../_includes/" + variant_name+ "epiweek_US_logit_local.html")
 
     show(p)
 
 
-
+def transmissibility_graph(midpoint_x, incubation_m_list, variant_name):
     source = ColumnDataSource(data=dict(groups=midpoint_x, counts=incubation_m_list))
     # p = figure(plot_height=350, title = 'Local Regression Slope over Time', y_range=(np.min(incubation_m_list)-1,np.max(incubation_m_list)+1))
-    p = figure(plot_height=350, title = 'Transmissibility Ratio Over Time', y_range=(0.75,1.75))
+    p = figure(plot_height=350, title = 'Transmissibility Ratio Over Time of ' + variant_name, y_range=(min(incubation_m_list) - 1, max(incubation_m_list)+1))
     p.line(x='groups', y = 'counts', line_width = 2, source = source)
 
     p.xaxis.axis_label = 'Epiweek'
     p.yaxis.axis_label = 'Transmissibility Ratio'
-    output_file("_includes/transmissibility_ratio.html")
+    # output_file("_includes/transmissibility_ratio.html")
+    output_file("../_includes/" + variant_name + "transmissibility_ratio.html")
 
     show(p)
