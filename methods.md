@@ -10,13 +10,13 @@ The COVID-19 data we use is stored in the [GISAID](gisaid.org) (Global Initiativ
 
 Explained below are the methods for how we analyzed the data:
 
-The dataset includes information on the variant each patient had, when the information was collected, their location (as specific as the state), and more. We focused on these three details. 
+The dataset includes information on the variant each patient had, when the information was collected, their location (as specific as the state), and more. We focused on these three details. We will use "V" to represent the variant of interest, which could represent the Alpha (B.1.1.7) or Delta (B.1.617.2) variants.
 
-Our first function has an input of a specific variant or location and outputs a list of the number of cases for each epiweek. The code checks the variant or location column for a specific label (e.g. "B.1.1.7" or "USA") as well as the date collected, separating the number of patients by week.  We implemented this function to calculate the total number of COVID-19 and B.1.1.7 cases in the U.S. 
+Our first function has an input of a specific variant or location and outputs a list of the number of cases for each epiweek. The code checks the variant or location column for a specific label (e.g. "B.1.1.7" or "USA") as well as the date collected, separating the number of patients by week.  We implemented this function to calculate the total number of COVID-19 and V cases in the U.S. 
 
-We plotted both the total number of COVID-19 and B.1.1.7 cases. 
+We plotted both the total number of COVID-19 and V cases. For analyses below, when considering variants other than B.1.1.7, instead of comparing it to the total COVID cases, we compared it to the total cases between variant V and B.1.1.7.
 
-Figure 2 represents the percentage of B.1.1.7 cases (*m<sub>i</sub>*) out of the the total number of cases (*n<sub>i</sub>*). *m<sub>i</sub>* and *n<sub>i</sub>* are the observed counts from the dataset. The subscript *i* represents that the number of cases are determined by each week. *p<sub>i</sub>*, the portion of COVID-19 cases that are B.1.1.7 , is estimated below:
+Figure 2 represents the percentage of V cases (*m<sub>i</sub>*) out of the the total number of cases (*n<sub>i</sub>*). *m<sub>i</sub>* and *n<sub>i</sub>* are the observed counts from the dataset. The subscript *i* represents that the number of cases are determined by each week. *p<sub>i</sub>*, the portion of COVID-19 cases that are V , is estimated below:
 
 <img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0Ap_i%20%26%3D%20%5Cfrac%7Bm_i%7D%7Bn_i%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;"> 
 
@@ -32,7 +32,7 @@ Now, we can define the prior as a uniform prior using &alpha;=1 and &beta;=1:
 
 The fact that the prior equals 1 suggests that every value from 0 to 1 has an equal likelihood of being *p<sub>i</sub>* for each i.
 
-The binomial likelihood was then calculated as follows, with n equal to the total number of COVID-19 cases, and k equal to the number of observed COVID-19 B.1.1.7 cases: 
+The binomial likelihood was then calculated as follows, with n equal to the total number of COVID-19 cases, and k equal to the number of observed COVID-19 V cases: 
 
 <img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Ctextrm%7BBinom%7D(n%2Cp)%20%26%3D%20%5Cbinom%7Bn%7D%7Bk%7Dp%5Ek(1-p)%5E%7Bn-k%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;">
 
@@ -58,7 +58,7 @@ A linear regression model was then computed. First, we used the linear regressio
 
 <img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0A%5Chat%7By%7D_i%20%3D%20m(x_i-%5Cbar%7Bx%7D)%2B%5Cbar%7By%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;">
 
-The 95% credible intervals are then determined again by a beta prior and binomial likelihood. The doubling time, which is how long it takes for the number of B.1.1.7 cases to double. In order to find this, we calculated in logistic space, how long it would take to double *p<sub>i</sub>*, which was *ln(2)*. Then, to get the change in time, we divided *ln(2)* by *m* (the slope). 
+The 95% credible intervals are then determined again by a beta prior and binomial likelihood. The doubling time, which is how long it takes for the number of V cases to double. In order to find this, we calculated in logistic space, how long it would take to double *p<sub>i</sub>*, which was *ln(2)*. Then, to get the change in time, we divided *ln(2)* by *m* (the slope). 
 
 <img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%0A%5Cbegin%7Balign*%7D%0At%20%3D%20%5Cfrac%7B%5Cln%7B2%7D%7D%7Bm%7D%0A%5Cend%7Balign*%7D" style="display: block; margin-left: auto; margin-right: auto;">
 
@@ -70,11 +70,11 @@ Thus, we were able to fit a logistic curve to our data.
 
 In addition to the linear model, we created a local regression. We used intervals of 5 weeks and calculated the equations of the lines for each interval. Essentially, it is a localized version of the linear model. 
 
-The reproductive number is defined as the number of people one infected person can trasmit the disease to over an incubation period of 5 days. Using this, we can calculate the transmissibility ratio, which is the reproductive number of the B.1.1.7 variant (*R<sub>B</sub>*) over the reproductive number of the other variants (*R<sub>0</sub>*):
+The reproductive number is defined as the number of people one infected person can trasmit the disease to over an incubation period of 5 days. Using this, we can calculate the transmissibility ratio, which is the reproductive number of the V variant (*R<sub>B</sub>*) over the reproductive number of the other variants (*R<sub>0</sub>*):
 $$
 \frac{R_B}{R_0}
 $$
-The slope of the graph of the *log(p/(1-p))* over time can be calculated as the change of the log ratio over one incubation period (5/7 of a week). If we consider  *p* as the initial proportion of B.1.1.7 cases and note that over one incubation period the B.1.1.7 cases will grow by a factor of *R<sub>B</sub>*, while other cases grow by a factor of *R<sub>0</sub>*, then slope will be calculated as follows:
+The slope of the graph of the *log(p/(1-p))* over time can be calculated as the change of the log ratio over one incubation period (5/7 of a week). If we consider  *p* as the initial proportion of V cases and note that over one incubation period the V cases will grow by a factor of *R<sub>B</sub>*, while other cases grow by a factor of *R<sub>0</sub>*, then slope will be calculated as follows:
 $$
 m = \frac{\log{\frac{p*R_B}{(1-p)*R_0}} -\log{\frac{p}{1-p}}}{\frac{5}{7}}
 $$
