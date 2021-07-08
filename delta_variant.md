@@ -5,7 +5,7 @@ permalink: /delta/
 
 ---
 
-<link href="style.css" rel="stylesheet" type="text/css"/>
+
 
 ### Tracking the B.1.617.2 (Delta) Variant in the U.S. 
 

@@ -4,7 +4,7 @@ title: "Methods"
 permalink: /methods/
 ---
 
-<link href="style.css" rel="stylesheet" type="text/css"/>
+
 
 The COVID-19 data we use is stored in the [GISAID](gisaid.org) (Global Initiative of Sharing all Influenza Data) database. We update the information weekly in order to provide graphs and trends that are up-to-date and indicative of the current COVID-19 situation. 
 
@@ -71,18 +71,17 @@ Thus, we were able to fit a logistic curve to our data.
 In addition to the linear model, we created a local regression. We used intervals of 5 weeks and calculated the equations of the lines for each interval. Essentially, it is a localized version of the linear model. 
 
 The reproductive number is defined as the number of people one infected person can trasmit the disease to over an incubation period of 5 days. Using this, we can calculate the transmissibility ratio, which is the reproductive number of the V variant (*R<sub>B</sub>*) over the reproductive number of the other variants (*R<sub>0</sub>*):
-$$
-\frac{R_B}{R_0}
-$$
+
+<img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%7B%5Cfrac%7BR_B%7D%7BR_0%7D%7D" class="center" style="display: block; margin-left: auto; margin-right: auto;">
+
 The slope of the graph of the *log(p/(1-p))* over time can be calculated as the change of the log ratio over one incubation period (5/7 of a week). If we consider  *p* as the initial proportion of V cases and note that over one incubation period the V cases will grow by a factor of *R<sub>B</sub>*, while other cases grow by a factor of *R<sub>0</sub>*, then slope will be calculated as follows:
-$$
-m = \frac{\log{\frac{p*R_B}{(1-p)*R_0}} -\log{\frac{p}{1-p}}}{\frac{5}{7}}
-$$
+
+<img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%7Bm%20%3D%20%5Cfrac%7B%5Clog%7B%5Cfrac%7Bp*R_B%7D%7B(1-p)*R_0%7D%7D%20-%5Clog%7B%5Cfrac%7Bp%7D%7B1-p%7D%7D%7D%7B%5Cfrac%7B5%7D%7B7%7D%7D%7D" class="center" style="display: block; margin-left: auto; margin-right: auto;">
+
 By logarithmic properties, we can simply the expression to:
-$$
-m = \frac{\log{\frac{R_B}{R_0}}}{\frac{5}{7}}
-$$
+
+<img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%7Bm%20%3D%20%5Cfrac%7B%5Clog%7B%5Cfrac%7BR_B%7D%7BR_0%7D%7D%7D%7B%5Cfrac%7B5%7D%7B7%7D%7D%7D" class="center" style="display: block; margin-left: auto; margin-right: auto;">
+
 Thus, we can manipulate *m* to get the trasmissibility ratio (*T*):
-$$
-T = e^{(\frac{5}{7})*m}
-$$
+
+<img src="https://render.githubusercontent.com/render/math?math=%5CLARGE%7BT%20%3D%20e%5E%7B(%5Cfrac%7B5%7D%7B7%7D)*m%7D%7D" class="center" style="display: block; margin-left: auto; margin-right: auto;">

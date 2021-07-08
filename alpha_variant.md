@@ -5,7 +5,7 @@ permalink: /alpha/
 
 ---
 
-<link href="style.css" rel="stylesheet" type="text/css"/>
+
 
 ### Tracking the B.1.1.7 (Alpha) Variant in the U.S.
 
