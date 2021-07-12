@@ -7,11 +7,11 @@ permalink: /delta/
 
 
 
-### Tracking the B.1.617.2 (Delta) Variant in the U.S. 
+### Tracking the B.1.617.2 (Delta) Variant in the U.S.
 
 The Delta variant (B.1.617.2) has emerged as one of the most contagious and deadly new variants. Not only is it more transmissible, it is slightly more resistant to [vaccines](https://www.nature.com/articles/d41586-021-01696-3), and its rise as the new, main variant of concern is said to be ["inevitable,"](https://www.nature.com/articles/d41586-021-01696-3)  despite the best efforts to contain it. With the B.1.1.7 (Alpha) variant slowly plateauing, the Delta variant will take its place. The World Health Organization (W.H.O.) urges people to keep their masks on due to this [variant](https://www.nytimes.com/2021/06/29/world/who-mask-guidelines.html). The COVID sequencing data is obtained from the EpiCoV database at [GISAID](https://www.gisaid.org), and it should be noted that it does not contain all known data from the U.S. By using the PCR method to test for COVID, it only detects if COVID is present, not which variant, so our data does not include all COVID cases, but should taken as a subsample of all the data to represent the overall trends. All graphs (except the first) compare the Delta variant to Alpha instead of the total COVID cases because the total cases are a heterogeneous population of variants, but we want to make a fixed comparison.
 
-{% include B.1.617.2_vs_Total_per_week.html %}
+{% include B.1.617.2_vs_Total_per_week.html %} 
 
 In the graph above. the blue represents the total COVID cases sequenced in the dataset, while the red shows the number of cases of the Delta variant sequenced. Currently, the Delta variant is slowly increasing, but due to its increased transmissibility, it is expected to overtake Alpha as the dominant strain.
 
