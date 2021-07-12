@@ -29,7 +29,7 @@ baseurl: ''
 title: 'CoViT'
 description: 'This is my new website'
 permalink: pretty
-logo: "/images/CoViT.png"
+logo: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52"
 
 # Pagination
 paginate: 5
@@ -58,7 +58,7 @@ collections:
     description: "My thoughts and ideas"
     feature_text: |
       Welcome to my blog
-    feature_image: "/images/covid.jpg" 
+    feature_image: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52" 
 
 # Collection settings
 defaults:
