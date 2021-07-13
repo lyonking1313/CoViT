@@ -2,6 +2,7 @@
 layout: page
 title: "Delta Variant"
 permalink: /delta/
+feature_image: "/images/covid.jpg"
 
 ---
 

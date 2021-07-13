@@ -2,6 +2,7 @@
 layout: page
 title: "Alpha Variant"
 permalink: /alpha/
+feature_image: "/images/covid.jpg"
 
 ---
 

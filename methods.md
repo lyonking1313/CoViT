@@ -2,6 +2,7 @@
 layout: page
 title: "Methods"
 permalink: /methods/
+feature_image: "/images/covid.jpg"
 ---
 
 
