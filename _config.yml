@@ -38,6 +38,7 @@ paginate_path: blog/page:num
 # Header nav
 navigation_header:
 - title: Home
+  url: /
 - title: Delta (B.1.617.2) 
   url: /delta
 - title: Alpha (B.1.1.7)
