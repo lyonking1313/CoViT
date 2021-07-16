@@ -27,7 +27,7 @@ plugins:
 url: 'https://mydomain.com'
 baseurl: ''
 title: 'CoViT'
-description: 'This is my new website'
+description: 'COVID Variant Tracker'
 permalink: pretty
 logo: "https://github.com/lyonking1313/CoViT/blob/gh-pages/images/CoViT.png?raw=true"
 
