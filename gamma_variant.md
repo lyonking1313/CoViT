@@ -12,6 +12,8 @@ feature_image: "/images/covid.jpg"
 
 The P.1 variant, which originated in Brazil during the winter of 2020/21, became known as one of the most transmissible COVID-19 variants. In addition, it has been shown to have the potential immune escape mutation and be more resistant to [vaccinations](https://gvn.org/covid-19/gamma-p-1/). In several locations throughout Brazil, there have been outbreaks of this variant and has been labeled by the [CDC](https://www.cdc.gov/coronavirus/2019-ncov/variants/variant-info.html) as a variant of concern.
 
+The COVID sequencing data is obtained from the EpiCoV database at [GISAID](https://www.gisaid.org), and it should be noted that it does not contain all known data from the U.S. By using the PCR method to test for COVID, it only detects if COVID is present, not which variant, so our data does not include all COVID cases, but should taken as a subsample of all the data to represent the overall trends. All graphs (except the first) compare the Gamma variant to Alpha instead of the total COVID cases because the total cases are a heterogeneous population of variants, but we want to make a fixed comparison.
+
 {% include P.1_vs_Total_per_week.html %}
 
 The blue line represents the total number of COVID-19 cases, while the red line shows the number of P.1 cases per week. 

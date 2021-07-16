@@ -10,7 +10,9 @@ feature_image: "/images/covid.jpg"
 
 ### Tracking the B.1.1.7 (Alpha) Variant in the U.S.
 
-Currently, the [B.1.1.7 variant](https://www.cdc.gov/coronavirus/2019-ncov/transmission/variant-cases.html) is the most prevalent in the U.S., making it a variant of concern. The variant emerged in late 2020 in the U.K. before traveling across the globe. It is known for its [increased transmissibility](https://www.cdc.gov/coronavirus/2019-ncov/science/science-briefs/scientific-brief-emerging-variants.html), which is why it is as of now, the most widespread variant in the U.S. The COVID sequencing data is obtained from the EpiCoV database at [GISAID](https://www.gisaid.org). This database allows us to quantify the number of B.1.1.7 cases in order to calculate this variant's trajectory over time. For each individual sample, the database used the RNA sequencing data to label the variants. More specifically, each variant of the COVID-19 virus has specific mutations, which can be used by an algorithm for classification. As a result, we were able to aggregate the B.1.1.7 and total cases per week.
+Currently, the [B.1.1.7 variant](https://www.cdc.gov/coronavirus/2019-ncov/transmission/variant-cases.html) is the most prevalent in the U.S., making it a variant of concern. The variant emerged in late 2020 in the U.K. before traveling across the globe. It is known for its [increased transmissibility](https://www.cdc.gov/coronavirus/2019-ncov/science/science-briefs/scientific-brief-emerging-variants.html), which is why it is as of now, the most widespread variant in the U.S.
+
+The COVID sequencing data is obtained from the EpiCoV database at [GISAID](https://www.gisaid.org). This database allows us to quantify the number of B.1.1.7 cases in order to calculate this variant's trajectory over time. For each individual sample, the database used the RNA sequencing data to label the variants. More specifically, each variant of the COVID-19 virus has specific mutations, which can be used by an algorithm for classification. As a result, we were able to aggregate the B.1.1.7 and total cases per week.
 
 {% include B.1.1.7_vs_Total_per_week.html %}
 
