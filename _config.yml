@@ -43,6 +43,8 @@ navigation_header:
   url: /delta
 - title: Alpha (B.1.1.7)
   url: /alpha
+- title: Gamma (P.1)
+  url: /gamma
 - title: Methods
   url: /methods
 

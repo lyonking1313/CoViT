@@ -22,7 +22,10 @@ def all_functions(variant_name, denom):
 		transmissibility_graph(midpoint_x, incubation_m_list, variant_name)
 
 
-# all_functions("B.1.1.7")
-# all_functions("P.1")
+all_functions("B.1.1.7", False)
+
+all_functions("P.1", False)
+all_functions("P.1", True)
+
 all_functions("B.1.617.2", False)
 all_functions("B.1.617.2", True)

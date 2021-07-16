@@ -32,14 +32,14 @@ def define_datasets(variant_name, B117_denom = False):
 
 
 
-    USA = dataset["country"].str.contains("USA")
+    USA = dataset["Location"].str.contains("USA")
     USA_total_variants = dataset[USA]
 
-    USA_variant_name = USA_total_variants["pango_lineage"] == variant_name
+    USA_variant_name = USA_total_variants["Pango lineage"] == variant_name
     USA_variant = USA_total_variants[USA_variant_name]
 
     if B117_denom:
-        USA_B117_variant = USA_total_variants["pango_lineage"] == "B.1.1.7"
+        USA_B117_variant = USA_total_variants["Pango lineage"] == "B.1.1.7"
         USA_B117_and_variant = USA_B117_variant | USA_variant_name
         USA_B117 = USA_total_variants[USA_B117_and_variant]
         return(USA_B117, USA_variant, new_file_name)
@@ -66,7 +66,7 @@ def max_epiweek_finder(file_name):
 
 
 def cases_per_week_function(variant_type, file_name):
-    var = variant_type["date"]
+    var = variant_type["Collection date"]
 
     yday_list = []
     for i in range (0, len(var)):
@@ -152,9 +152,9 @@ def set_up_variables(variant_name, denom):
     B117_per_week = cases_per_week_function(USA_B117_variants, file_name)
     USA_per_week = cases_per_week_function(USA_variants, file_name)
     B117_over_total_USA = B117_per_week*100/USA_per_week
-
+    start_index = 0
     for i in range (0, len(B117_over_total_USA)):
-        if B117_over_total_USA[len(B117_over_total_USA)-i-1] < np.exp(-8.5):
+        if B117_over_total_USA[len(B117_over_total_USA)-i-1] < np.exp(-8.5) or B117_per_week[len(B117_over_total_USA)-i-1] < 10:
             start_index = len(B117_over_total_USA) - i
             break;
 
