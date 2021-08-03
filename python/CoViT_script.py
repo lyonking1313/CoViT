@@ -35,10 +35,10 @@ def all_functions(variant_name, denom):
  	
 pie()
 
-# all_functions("B.1.1.7", False)
+all_functions("B.1.1.7", False)
 
-# all_functions("P.1", False)
-# all_functions("P.1", True)
+all_functions("P.1", False)
+all_functions("P.1", True)
 
-# all_functions("B.1.617.2", False)
-# all_functions("B.1.617.2", True)
+all_functions("B.1.617.2", False)
+all_functions("B.1.617.2", True)
