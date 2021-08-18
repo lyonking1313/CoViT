@@ -9,13 +9,19 @@ from bokeh.models import ColumnDataSource, Whisker
 from bokeh.plotting import figure
 from bokeh.io import output_file, show
 import math
+from math import pi
+
+from bokeh.palettes import Category20c
+from bokeh.plotting import figure
+from bokeh.transform import cumsum
+
 
 import glob
 import os
 
 def important_variant_finder():
     USA_variants, y, file_name = define_datasets("B.1.1.7", False)
-    var = USA_variants["Collection date"]
+    var = USA_variants["date"]
 
     yday_list = []
     for i in range (0, len(var)):
@@ -33,9 +39,9 @@ def important_variant_finder():
 
     variant_counter = {}
 
-    variant_list = list(USA_variants["Pango lineage"])
+    variant_list = list(USA_variants["pango_lineage"])
     max_epiweek = max_epiweek_finder(file_name)
-    for i in range (0, len(USA_variants["Pango lineage"])):
+    for i in range (0, len(USA_variants["pango_lineage"])):
         if yday_list[i]>=(7*(max_epiweek-1))-4 and yday_list[i] < (7*max_epiweek-4):
 
 
@@ -66,14 +72,14 @@ def define_datasets(variant_name, B117_denom = False):
 
 
 
-    USA = dataset["Location"].str.contains("USA")
+    USA = dataset["country"].str.contains("USA")
     USA_total_variants = dataset[USA]
 
-    USA_variant_name = USA_total_variants["Pango lineage"] == variant_name
+    USA_variant_name = USA_total_variants["pango_lineage"] == variant_name
     USA_variant = USA_total_variants[USA_variant_name]
 
     if B117_denom:
-        USA_B117_variant = USA_total_variants["Pango lineage"] == "B.1.1.7"
+        USA_B117_variant = USA_total_variants["pango_lineage"] == "B.1.1.7"
         USA_B117_and_variant = USA_B117_variant | USA_variant_name
         USA_B117 = USA_total_variants[USA_B117_and_variant]
         return(USA_B117, USA_variant, new_file_name)
@@ -100,7 +106,7 @@ def max_epiweek_finder(file_name):
 
 
 def cases_per_week_function(variant_type, file_name):
-    var = variant_type["Collection date"]
+    var = variant_type["date"]
 
     yday_list = []
     for i in range (0, len(var)):
@@ -294,17 +300,27 @@ def pie_chart_variables():
     return(top_cases_by_variant, total_cases)
 
 def pie_chart(top_cases_by_variant, total_cases):
-    labels = list(top_cases_by_variant.keys())
-    sizes = np.array(list(top_cases_by_variant.values()))/total_cases
-    fig1, ax1 = plt.subplots()
-    colors = ("red", "orange", "yellow", 
-              "lime", "royalblue", "cyan", "violet") 
-    ax1.pie(sizes, labels=labels, colors = colors, autopct='%1.1f%%',
-            shadow=True, startangle=0, radius=5000)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    fig1.set_size_inches(7,7)
-    plt.savefig('../_includes/US_variant_percentages.html')
 
+    output_file("../_includes/" + "US_variant_percentages.html")
+
+
+
+    data = pd.Series(top_cases_by_variant).reset_index(name='value').rename(columns={'index':'country'})
+    data['angle'] = data['value']/data['value'].sum() * 2*pi
+    data['color'] = Category20c[len(top_cases_by_variant)]
+
+    p = figure(plot_height=350, title="Pie Chart", toolbar_location=None,
+               tools="hover", tooltips="@country: @value", x_range=(-0.5, 1.0))
+
+    p.wedge(x=0, y=1, radius=0.4,
+            start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+            line_color="white", fill_color='color', legend_field='country', source=data)
+
+    p.axis.axis_label=None
+    p.axis.visible=False
+    p.grid.grid_line_color = None
+
+    show(p)
 
 def total_cases(k_list, B117_per_week, USA_per_week, variant_name): 
     source = ColumnDataSource(data=dict(groups=k_list.index.tolist(), counts=B117_per_week))
