@@ -36,7 +36,7 @@ def all_functions(variant_name, denom):
 midpoint_x_list = {}
 incubation_m_list_list = {}
 
-def all_transmissibility_ratios()
+def all_transmissibility_ratios():
 
 
 	for i in range (0, len(top_cases_by_variant)):
@@ -63,12 +63,12 @@ def all_transmissibility_ratios()
 
 
  	
-pie()
+# pie()
 
-all_functions("B.1.1.7", False)
+# all_functions("B.1.1.7", False)
 
 all_functions("P.1", False)
 all_functions("P.1", True)
 
-all_functions("B.1.617.2", False)
-all_functions("B.1.617.2", True)
+# all_functions("B.1.617.2", False)
+# all_functions("B.1.617.2", True)
