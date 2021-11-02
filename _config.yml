@@ -41,10 +41,8 @@ navigation_header:
   url: /
 - title: Delta (B.1.617.2) 
   url: /delta
-- title: Alpha (B.1.1.7)
-  url: /alpha
-- title: Gamma (P.1)
-  url: /gamma
+- title: AY.25
+  url: /AY.25
 - title: Methods
   url: /methods
 

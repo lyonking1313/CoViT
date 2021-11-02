@@ -25,7 +25,7 @@ def all_functions(variant_name, denom):
 	if not denom:
 		total_cases(k_list, B117_per_week, USA_per_week, variant_name)
 
-	if variant_name == "B.1.1.7" or denom:
+	if variant_name == "B.1.617.2" or denom:
 		percentage_cases(k_list_int, lower_bounds, upper_bounds, B117_over_total_USA, lin_x, log_reg_y, variant_name)
 
 		logit_graph(k_list_int, logit_lower_bounds, logit_upper_bounds, y_logistic_scale, lin_reg_y, midpoint_x, midpoint_list, variant_name)
@@ -63,12 +63,12 @@ def all_transmissibility_ratios():
 
 
  	
-# pie()
+pie()
 
-# all_functions("B.1.1.7", False)
+all_functions("B.1.617.2", False)
 
-all_functions("P.1", False)
-all_functions("P.1", True)
+all_functions("AY.25", False)
+all_functions("AY.25", True)
 
 # all_functions("B.1.617.2", False)
 # all_functions("B.1.617.2", True)

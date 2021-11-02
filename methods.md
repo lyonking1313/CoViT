@@ -11,11 +11,11 @@ The COVID-19 data we use is stored in the [GISAID](gisaid.org) (Global Initiativ
 
 Explained below are the methods for how we analyzed the data:
 
-The dataset includes information on the variant each patient had, when the information was collected, their location (as specific as the state), and more. We focused on these three details. We will use "V" to represent the variant of interest (i.e.: the Alpha variant)
+The dataset includes information on the variant each patient had, when the information was collected, their location (as specific as the state), and more. We focused on these three details. We will use "V" to represent the variant of interest (i.e.: the Delta variant)
 
-Our first function has an input of a specific variant or location and outputs a list of the number of cases for each epiweek. The code checks the variant or location column for a specific label (e.g. "B.1.1.7" or "USA") as well as the date collected, separating the number of patients by week.  We implemented this function to calculate the total number of COVID-19 and V cases in the U.S. 
+Our first function has an input of a specific variant or location and outputs a list of the number of cases for each epiweek. The code checks the variant or location column for a specific label (e.g. "B.1.617.2" or "USA") as well as the date collected, separating the number of patients by week.  We implemented this function to calculate the total number of COVID-19 and V cases in the U.S. 
 
-We plotted both the total number of COVID-19 and V cases. For analyses below, when considering variants other than B.1.1.7, instead of comparing it to the total COVID cases, we compared it to the total cases between variant V and B.1.1.7.
+We plotted both the total number of COVID-19 and V cases. For analyses below, when considering variants other than B.1.617.2, instead of comparing it to the total COVID cases, we compared it to the total cases between variant V and B.1.617.2.
 
 Figure 2 represents the percentage of V cases (*m<sub>i</sub>*) out of the the total number of cases (*n<sub>i</sub>*). *m<sub>i</sub>* and *n<sub>i</sub>* are the observed counts from the dataset. The subscript *i* represents that the number of cases are determined by each week. *p<sub>i</sub>*, the portion of COVID-19 cases that are V , is estimated below:
 
