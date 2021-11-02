@@ -20,7 +20,7 @@ A **variant** only becomes a [**variant of concern**](https://www.cdc.gov/corona
 
 Currently, the Delta variant is the most prevalent and concerning. It is currently drastically increasing in the U.S. and other countries.
 
-The chart below represents the most prevalent variants in the U.S. The AY variants (AY.3 and AY.2) are currently aggregated with the Delta variant (B.1.617.2), but can be shown separately as well.  
+The chart below represents the most prevalent variants in the U.S. 
 
 {% include US_variant_percentages.html %}
 
